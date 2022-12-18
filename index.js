@@ -3,14 +3,16 @@ const express = require("express");
 const app = express();
 const authRoute = require("./routes/auth");
 const userRoute = require("./routes/users");
-const postsRoute = require("./routes/post");
+const postRoute = require("./routes/posts");
 const categoryRoute = require("./routes/categories");
 const multer = require("multer");
 const path = require("path");
+const cors = require("cors");
 
 dotenv.config({ path: ".env" });
 require("./db/connection");
 
+app.use(cors());
 app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "/images")));
 
@@ -30,7 +32,7 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
-app.use("/api/post", postsRoute);
+app.use("/api/posts", postRoute);
 app.use("/api/categories", categoryRoute);
 
 const PORT = process.env.PORT;
